@@ -1,3 +1,3 @@
 class SpreeSellerHooks < Spree::ThemeSupport::HookListener
-  # custom hooks go here
+  # insert_after :signup_below_password_fields, 'shared/seller_fields'
 end
