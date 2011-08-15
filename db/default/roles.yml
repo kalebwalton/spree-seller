@@ -2,9 +2,9 @@ admin_role:
   id: 1
   name: admin
 
-user_role:
+buyer_role:
   id: 2
-  name: user
+  name: buyer
   
 seller_role:
   id: 3

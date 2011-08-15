@@ -1,5 +1,11 @@
 User.class_eval do
 
+  has_many :products, :foreign_key => :seller_id
+  has_many :orders, :foreign_key => :seller_id
+
+  scope :seller, lambda { includes(:roles).where("roles.name" => "seller") }
+  scope :buyer, lambda { includes(:roles).where("roles.name" => "buyer") }
+
   attr_accessible :role
 
   def role=(role_name)

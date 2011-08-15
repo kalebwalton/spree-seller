@@ -1,2 +1,3 @@
  ---
   en:
+    order_must_not_contain_products_from_multiple_sellers: Order must not contain products from multiple sellers
