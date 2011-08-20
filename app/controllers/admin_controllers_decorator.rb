@@ -25,6 +25,14 @@ Admin::ProductsController.class_eval do
     authorize! params[:action].to_sym, Product
   end
 
+  def new
+    puts "HELLO"
+    @product = Product.new
+    @product.seller = User.current
+    puts User.current
+    respond_with(@product)
+  end
+
   def collection
     # Scope products down to the currently logged in seller
     if current_user.has_role? 'seller'
@@ -45,6 +53,20 @@ end
 Admin::UsersController.class_eval do
   def authorize_admin
     authorize! params[:action].to_sym, User
+  end
+end
+
+Admin::PaymentsController.class_eval do
+  def authorize_admin
+    authorize! :admin, Payment
+    authorize! params[:action].to_sym, Payment
+  end
+end
+
+Admin::ShipmentsController.class_eval do
+  def authorize_admin
+    authorize! :admin, Shipment
+    authorize! params[:action].to_sym, Shipment
   end
 end
 
