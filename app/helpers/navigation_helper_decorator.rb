@@ -1,13 +1,15 @@
 Admin::NavigationHelper.class_eval do
 
-  # Make an admin tab that coveres one or more resources supplied by symbols
-  # Option hash may follow. Valid options are
-  #   * :label to override link text, otherwise based on the first resource name (translated)
-  #   * :route to override automatically determining the default route
-  #   * :match_path as an alternative way to control when the tab is active, /products would match /admin/products, /admin/products/5/variants etc.
   def custom_tab(*args)
-    # Only show the Orders and Products tabs to Sellers
-    original_tab(*args) unless User.current.has_role? 'seller' and [:overview, :reports, :configurations, :users].include?(args[0])
+    # Return nothing if the user can't access this area
+    return "" unless can? :admin, args.first.to_s.classify.constantize rescue ""
+    
+    # Scrub inaccessible items from the secondary navigation
+    args.reject! {|arg| 
+      !arg.is_a?(Hash) && !can?(:admin, arg.to_s.classify.constantize) rescue false
+    }
+    
+    original_tab(*args)
   end
 
   # Important to alias these methods AFTER custom_tab is defined

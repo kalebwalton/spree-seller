@@ -4,7 +4,7 @@ Order.class_eval do
   
   validate :contains_products_from_only_one_seller
 
-  before_create :associate_with_seller
+  before_save :associate_with_seller
   
   def associate_with_seller
     # Associate this order with the seller associated with the first product

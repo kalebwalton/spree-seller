@@ -8,7 +8,8 @@ OrdersController.class_eval do
     # the requested products/variants
     # There shouldn't be more than one seller yet, so we're not checking for it
     products = @order.products
-    seller_ids = products.collect{|product| product.seller_id} unless products.nil? or products.empty?
+    seller_ids = []
+    seller_ids << products.collect{|product| product.seller_id} unless products.nil? or products.empty?
     
     params[:products].each do |product_id,variant_id|
       seller_ids << Variant.find(variant_id).product.seller_id
