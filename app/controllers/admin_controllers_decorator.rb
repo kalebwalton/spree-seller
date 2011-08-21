@@ -1,52 +1,12 @@
-Admin::OrdersController.class_eval do
-  alias_method :index_admin, :index
-
-  def authorize_admin
-    authorize! :admin, Order
-    authorize! params[:action].to_sym, Order
-  end
-  
-  def index
-    # Scope orders down to the currently logged in seller
-    if User.current.has_role? 'seller'
-      params[:search] ||= {}
-      params[:search][:seller_id_equals] = User.current.id
+[:orders, :products, :line_items, :payments, :shipments, :images].each do |name|
+  controller = eval("Admin::#{name.to_s.camelize}Controller")
+  # This is a hacky way of passing the object_class to the authorize_admin method... couldn't figure out a better way (I'm sure there is)
+  controller.class_variable_set("@@object_class", name.to_s.classify.constantize)
+  controller.class_eval do
+    def authorize_admin
+      authorize! :admin, @@object_class
+      authorize! params[:action].to_sym, @@object_class
     end
-    index_admin
-  end
-
-end
-
-Admin::ProductsController.class_eval do
-  alias_method :collection_admin, :collection
-
-  def authorize_admin
-    authorize! :admin, Product
-    authorize! params[:action].to_sym, Product
-  end
-
-  def new
-    puts "HELLO"
-    @product = Product.new
-    @product.seller = User.current
-    puts User.current
-    respond_with(@product)
-  end
-
-  def collection
-    # Scope products down to the currently logged in seller
-    if current_user.has_role? 'seller'
-      params[:search] ||= {}
-      params[:search][:seller_id_equals] = current_user[:id]
-    end
-    collection_admin
-  end
-end
-
-Admin::LineItemsController.class_eval do
-  def authorize_admin
-    authorize! :admin, LineItem
-    authorize! params[:action].to_sym, LineItem
   end
 end
 
@@ -56,17 +16,9 @@ Admin::UsersController.class_eval do
   end
 end
 
-Admin::PaymentsController.class_eval do
+Admin::OverviewController.class_eval do
   def authorize_admin
-    authorize! :admin, Payment
-    authorize! params[:action].to_sym, Payment
-  end
-end
-
-Admin::ShipmentsController.class_eval do
-  def authorize_admin
-    authorize! :admin, Shipment
-    authorize! params[:action].to_sym, Shipment
+    authorize! :admin, :overview
   end
 end
 

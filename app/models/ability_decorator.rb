@@ -11,12 +11,12 @@ class AbilityDecorator
         LineItem => :order,
         Variant => :product,
         Payment => :order,
-        Shipment => :order
+        Shipment => :order,
+        Image => :product
       }.each_pair do |klass, path|
         can :admin, klass
         can :manage, klass do |obj|
           next true if obj.nil? or obj.new_record?
-          
           if obj.is_a? Array
             obj.index{|o| resolve_seller_through(path, o) == user}.nil?
           else
@@ -27,6 +27,8 @@ class AbilityDecorator
 
       can :index, User
       can :read, User
+      
+      can :admin, :overview
     end
   end
   
