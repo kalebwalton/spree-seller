@@ -7,11 +7,13 @@ class AbilityDecorator
     
       {
         Product => :direct,
+        ProductProperty => :product,
         Order => :direct,
         LineItem => :order,
         Variant => :product,
         Payment => :order,
         Shipment => :order,
+        ProductOptionType => :product,
         Image => :product
       }.each_pair do |klass, path|
         can :admin, klass
@@ -27,6 +29,18 @@ class AbilityDecorator
 
       can :index, User
       can :read, User
+      
+      can :index, OptionType
+      can :read, OptionType
+      
+      can :available, Prototype
+      can :select, Prototype
+      can :read, Prototype
+      
+      can :selected, Taxon
+      can :select, Taxon
+      can :available, Taxon
+      can :read, Taxon
       
       can :admin, :overview
     end

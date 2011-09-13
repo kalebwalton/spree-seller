@@ -1,4 +1,4 @@
-[:orders, :products, :line_items, :payments, :shipments, :images].each do |name|
+[:orders, :products, :variants, :line_items, :payments, :shipments, :images, :option_types, :product_properties].each do |name|
   controller = eval("Admin::#{name.to_s.camelize}Controller")
   # This is a hacky way of passing the object_class to the authorize_admin method... couldn't figure out a better way (I'm sure there is)
   controller.class_variable_set("@@object_class", name.to_s.classify.constantize)
@@ -13,6 +13,18 @@ end
 Admin::UsersController.class_eval do
   def authorize_admin
     authorize! params[:action].to_sym, User
+  end
+end
+
+Admin::PrototypesController.class_eval do
+  def authorize_admin
+    authorize! params[:action].to_sym, Prototype
+  end
+end
+
+Admin::TaxonsController.class_eval do
+  def authorize_admin
+    authorize! params[:action].to_sym, Taxon
   end
 end
 
