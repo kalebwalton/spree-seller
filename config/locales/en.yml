@@ -1,3 +1,4 @@
  ---
   en:
     order_must_not_contain_products_from_multiple_sellers: Order must not contain products from multiple sellers
+    order_must_not_contain_the_same_product_twice: Order must not contain the same product twice
