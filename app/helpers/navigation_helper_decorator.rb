@@ -2,7 +2,9 @@ Admin::NavigationHelper.class_eval do
 
   def custom_tab(*args)
     # Return nothing if the user can't access this area
-    return "" unless can? :admin, args.first.to_s.classify.constantize rescue ""
+    authable = args.first.to_s.classify.constantize rescue args.first
+    
+    return "" unless can? :admin, authable
     
     # Scrub inaccessible items from the secondary navigation
     args.reject! {|arg| 
