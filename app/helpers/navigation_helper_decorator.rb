@@ -15,7 +15,7 @@ Admin::NavigationHelper.class_eval do
   end
 
   # Important to alias these methods AFTER custom_tab is defined
-  alias_method :original_tab, :tab
+  alias_method :original_tab, :tab unless method_defined?(:original_tab)
   alias_method :tab, :custom_tab
 
 end

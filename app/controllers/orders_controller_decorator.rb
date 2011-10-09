@@ -1,5 +1,5 @@
 OrdersController.class_eval do
-  alias_method :populate_without_single_seller_check, :populate
+  alias_method :populate_without_single_seller_check, :populate unless method_defined?(:populate_without_single_seller_check)
 
   def populate
     @order = current_order(true)

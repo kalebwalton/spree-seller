@@ -1,5 +1,5 @@
 Admin::ProductsController.class_eval do
-  alias_method :collection_admin, :collection
+  alias_method :collection_admin, :collection unless method_defined?(:collection_admin)
   create.before :set_seller
   
   def set_seller
