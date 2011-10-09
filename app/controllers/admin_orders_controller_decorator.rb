@@ -3,7 +3,7 @@ Admin::OrdersController.class_eval do
   
   def index
     # Scope orders down to the currently logged in seller
-    if User.current.has_role? 'seller'
+    if !User.current.nil? and User.current.has_role? 'seller'
       params[:search] ||= {}
       params[:search][:seller_id_equals] = User.current.id
     end

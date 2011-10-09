@@ -8,7 +8,7 @@ Admin::ProductsController.class_eval do
 
   def collection
     # Scope products down to the currently logged in seller
-    if current_user.has_role? 'seller'
+    if !current_user.nil? and current_user.has_role? 'seller'
       params[:search] ||= {}
       params[:search][:seller_id_equals] = current_user[:id]
     end

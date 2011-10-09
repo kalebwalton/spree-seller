@@ -4,7 +4,7 @@ UserSessionsController.class_eval do
   # Only override the method if it already exists, otherwise we get into a wierd StackOverflow error
   if method_defined?(:redirect_back_or_default)
     def redirect_back_or_default(default)
-      if current_user.has_role? 'seller'
+      if !current_user.nil? and current_user.has_role? 'seller'
         redirect_to(session["user_return_to"] || admin_path)
         session["user_return_to"] = nil
       else 
