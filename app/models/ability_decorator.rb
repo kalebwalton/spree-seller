@@ -18,7 +18,7 @@ class AbilityDecorator
       }.each_pair do |klass, path|
         can :admin, klass
         can :manage, klass do |obj|
-          next true if obj.nil? or obj.new_record?
+          next true if obj.nil? or (obj.is_a? ActiveRecord::Base and obj.new_record?)
           if obj.is_a? Array
             obj.index{|o| resolve_seller_through(path, o) == user}.nil?
           else
