@@ -47,10 +47,12 @@ class AbilityDecorator
   end
   
   def resolve_seller_through(path, object) 
-    if (path == :direct) 
-      object.try(:seller)
-    else
-      resolve_seller_through(:direct, object.try(path))
+    if (!object.nil?) 
+      if (path == :direct) 
+        object.try(:seller) if object.respond_to? :seller
+      else
+        resolve_seller_through(:direct, object.try(path))
+      end
     end
   end
   
