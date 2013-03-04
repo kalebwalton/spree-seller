@@ -43,6 +43,7 @@ class AbilityDecorator
       can :read, Taxon
       
       can :admin, :overview
+      can :seller, :ask # This should really go somewhere else... can't figure out how to have another ability_decorator somewhere though
     end
   end
   
